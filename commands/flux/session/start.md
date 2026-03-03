@@ -25,6 +25,7 @@ Examples (`session_goal` --> `session_name`)
 	* fix bugs in the generation of data identifiers --> bugfix-data-identifiers
 	* implement new feature for crawling arbitrary sources --> feat-arbitrary-crawl-sources
 
+---
 
 
 # STEP 2: Understand the codebase
@@ -49,13 +50,23 @@ You will use these as you work, so note where this information can be found and 
 
 If there are conflicts between the files and the codebase, the codebase will take precedence.
 
+---
 
-# STEP 3: Start the session
+
+# STEP 3: Create a working git branch
+Run the git command in the `Branch` section to create a new git branch for this session
+
+## Branch
+
+git checkout -b `session_name`
+
+---
+
+
+# STEP 4: Start the session
 Execute the `Start` section to start a new session
 
 ## Start
-
-Create a new git branch named `session_name` from the current checked out branch and switch to it.
 
 Generate a new `session_id` by running the bash date command. Use YYYY-MM-DD-HHMM as the format.
 
@@ -75,3 +86,5 @@ Confirm the session has started and remind the user they can:
 - End it with `/session:end`
 
 NEVER start any work on the session goal, wait till explicitly told to do so
+
+---
