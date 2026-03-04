@@ -34,7 +34,7 @@ The Flux framework transforms AI-coder development through **session-based workf
 - **Learning Capture**: Every challenge and solution becomes institutional knowledge
 - **Documentation Evolution**: Project understanding improves automatically over time
 
-## 🚀 Quick Start 
+## 🚀 Quick Start
 
 > *Note: The framework works out-of-the-box with Claude Code but can be easily modified to work with other AI coding agents.*
 
@@ -44,50 +44,79 @@ git clone https://github.com/carveragents/flux.git
 cp -R flux/commands ~/.claude/
 ```
 
-#### 1. Start with Intelligent Context Priming
+#### 1. Initialize Your Repo (One-Time Setup)
 ```bash
- /session:start fix memory leak in data processing
+/flux:repo:init [repo_desc]
+```
+*Creates boilerplate files (`CLAUDE.md`, `docs/README.md`, `docs/LESSONS.md`), reads your codebase, and generates project documentation automatically*
+
+#### 2. Start with Intelligent Context Priming
+```bash
+/flux:session:start fix memory leak in data processing
 ```
 *Framework analyzes your goal, loads relevant code and docs, surfaces applicable lessons, and creates an isolated branch `bugfix-memory-leak-data-processing` for development*
 
-#### 2. Develop
+#### 3. Develop
 *Develop as normal. Let AI generate code. It may encounter problems, solve as normal using human + AI mix.*
 
-#### 3. Update and Capture Progress
+#### 4. Update and Capture Progress
 ```bash
-/session:update
+/flux:session:update
 ```
 *Updates session progress, summarizes and captures development flow*
 
-#### 4. End with Knowledge Capture
+#### 5. End with Knowledge Capture
 ```bash
-/session:end
+/flux:session:end
 ```
 *Updates lessons learned and prepares insights for future sessions*
 
-## 🎁 Bonus: Git Utilities 
+## 📦 Commands Reference
 
-For convenience, the framework includes intelligent Git commands:
+All commands live under `commands/flux/` and are organized into three groups:
 
-- **`/git:commit`** - Analyzes session context and code changes to generate conventional commit messages with emojis. Automatically splits large changes into logical atomic commits.
-- **`/git:merge-cleanup`** - Merges current session branch to main, pushes to origin, and cleans up the working branch.
+### Repo Commands
 
-These integrate seamlessly with the session workflow but are entirely optional - the core value is in session management and continuous learning.
+| Command | Description |
+|---------|-------------|
+| `/flux:repo:init [repo_desc]` | One-time setup — creates boilerplate files, reads the codebase, and generates project documentation |
 
-## 🔧 Extending beyond Claude Code 
+### Session Commands
 
-All logic lives in the **command contracts** (`commands/.../*.md`). To adapt:
+| Command | Description |
+|---------|-------------|
+| `/flux:session:start [goal]` | Start a new session with context priming and branch creation |
+| `/flux:session:update` | Append a progress update to the active session |
+| `/flux:session:end` | End the session with a comprehensive summary and lesson capture |
+| `/flux:session:current` | Show the active session's status, duration, and recent updates |
+| `/flux:session:list` | List all past and present session files |
+| `/flux:session:help` | Show session command help and best practices |
+
+### Git Commands
+
+| Command | Description |
+|---------|-------------|
+| `/flux:git:commit` | Analyze changes and generate conventional commit messages with emojis; auto-splits large changes into atomic commits |
+| `/flux:git:merge-cleanup [target]` | Merge work branch into target (default: main), push to origin, and delete the work branch |
+| `/flux:git:merge-retain [target]` | Merge work branch into target (default: main), push to origin, and switch back to the work branch |
+
+Git commands integrate seamlessly with the session workflow but are entirely optional.
+
+## 🔧 Extending beyond Claude Code
+
+All logic lives in the **command contracts** (`commands/flux/{repo,session,git}/*.md`). To adapt:
 
 - Map `allowed tools` and filesystem paths to your agent/runtime.
 - Keep the **session file format** stable for portability.
 - If your agent can run shell steps, branch creation and `git status` work as-is.
 
-## 📋 Best Practices 
+## 📋 Best Practices
 
 - **Specific Goals**: Start sessions with clear, measurable objectives
 - **Regular Updates**: Document progress and discoveries as they happen
 - **Honest Recording**: Capture what didn't work as well as what did
 - **Review Lessons**: Let the framework surface relevant insights from previous work
+- **Initialize First**: Run `/flux:repo:init` once per project to set up documentation scaffolding
 
 ## 🤝 Contributing 
 
