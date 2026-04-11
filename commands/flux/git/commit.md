@@ -4,6 +4,10 @@ description: This command helps you create well-formatted commits with conventio
 model: claude-haiku-4-5
 ---
 
+> **Note**: This is the Claude Code interface for Flux.
+> For agent-agnostic use across Amazon Q, Cursor, Copilot, and Windsurf, install the MCP server: `npx flux-mcp`
+> Use `flux_git_prepare_commit` + `flux_git_commit` tools for the same workflow.
+
 <!-- Some parts of this command are specific to Claude Code,
 especially folder locations, front matter, and argument passing.
 Modify as needed if using with other coding agents. -->

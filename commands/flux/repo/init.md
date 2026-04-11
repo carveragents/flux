@@ -5,6 +5,10 @@ description: Prime the context and start a new development session to track work
 model: claude-opus-4-6
 ---
 
+> **Note**: This is the Claude Code interface for Flux.
+> For agent-agnostic use across Amazon Q, Cursor, Copilot, and Windsurf, install the MCP server: `npx flux-mcp`
+> Session files are stored in `.flux/.sessions/` when using the MCP server.
+
 <!-- Some parts of this command are specific to Claude Code,
 especially folder locations, front matter, and argument passing.
 Modify as needed if using with other coding agents. -->

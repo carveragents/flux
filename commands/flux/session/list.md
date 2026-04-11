@@ -3,13 +3,17 @@ description: List all development sessions for project
 model: claude-haiku-4-5
 ---
 
+> **Note**: This is the Claude Code interface for Flux.
+> For agent-agnostic use across Amazon Q, Cursor, Copilot, and Windsurf, install the MCP server: `npx flux-mcp`
+> Session files are stored in `.flux/.sessions/` when using the MCP server.
+
 <!-- Some parts of this command are specific to Claude Code,
 especially folder locations, front matter, and argument passing.
 Modify as needed if using with other coding agents. -->
 
 List all development sessions by:
 
-1. Check if `.claude/.sessions/` directory exists
+1. Check if `.flux/.sessions/` directory exists
 2. List all `.md` files (excluding hidden files and `.current-session`)
 3. For each session file:
    - Show the filename

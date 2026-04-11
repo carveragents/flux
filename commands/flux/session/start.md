@@ -5,6 +5,10 @@ description: Prime the context and start a new development session to track work
 model: claude-haiku-4-5
 ---
 
+> **Note**: This is the Claude Code interface for Flux.
+> For agent-agnostic use across Amazon Q, Cursor, Copilot, and Windsurf, install the MCP server: `npx flux-mcp`
+> Session files are stored in `.flux/.sessions/` when using the MCP server.
+
 <!-- Some parts of this command are specific to Claude Code,
 especially folder locations, front matter, and argument passing.
 Modify as needed if using with other coding agents. -->
@@ -70,8 +74,8 @@ Execute the `Start` section to start a new session
 
 Generate a new `session_id` by running the bash date command. Use YYYY-MM-DD-HHMM as the format.
 
-Start a new development session by creating a session file in `.claude/.sessions/` with the format `session_id-session_name.md`.
-If `.claude/.sessions/` does not exist, create it using mkdir.
+Start a new development session by creating a session file in `.flux/.sessions/` with the format `session_id-session_name.md`.
+If `.flux/.sessions/` does not exist, create it using mkdir.
 
 The session file should begin with:
 1. Session name and timestamp as the title
@@ -79,7 +83,7 @@ The session file should begin with:
 3. Goals section (ask user for goals if not clear)
 4. Empty progress section ready for updates
 
-After creating the file, create or update `.claude/.sessions/.current-session` to track the active session filename.
+After creating the file, create or update `.flux/.sessions/.current-session` to track the active session filename.
 
 Confirm the session has started and remind the user they can:
 - Update it with `/session:update`

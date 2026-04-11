@@ -4,13 +4,17 @@ description: End current development session
 model: claude-haiku-4-5
 ---
 
+> **Note**: This is the Claude Code interface for Flux.
+> For agent-agnostic use across Amazon Q, Cursor, Copilot, and Windsurf, install the MCP server: `npx flux-mcp`
+> Session files are stored in `.flux/.sessions/` when using the MCP server.
+
 <!-- Some parts of this command are specific to Claude Code,
 especially folder locations, front matter, and argument passing.
 Modify as needed if using with other coding agents. -->
 
 End the current development session by:
 
-1. Check `.claude/.sessions/.current-session` for the active session
+1. Check `.flux/.sessions/.current-session` for the active session
 2. If no active session, inform user there's nothing to end
 3. If session exists, append a comprehensive session summary including:
    - Session duration
@@ -72,6 +76,6 @@ The session summary should be thorough enough that another developer (or AI) can
 				- if a relevant section does not exist, create one and update it with the changes
 		- ensure that you stick to the purpose of the readme
 
-6. Empty the `.claude/.sessions/.current-session` file (don't remove it, just clear its contents)
+6. Empty the `.flux/.sessions/.current-session` file (don't remove it, just clear its contents)
 7. Inform user the session has been documented
 

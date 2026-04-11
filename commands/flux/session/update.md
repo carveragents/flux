@@ -4,6 +4,10 @@ description: Update the current development session
 model: claude-haiku-4-5
 ---
 
+> **Note**: This is the Claude Code interface for Flux.
+> For agent-agnostic use across Amazon Q, Cursor, Copilot, and Windsurf, install the MCP server: `npx flux-mcp`
+> Session files are stored in `.flux/.sessions/` when using the MCP server.
+
 <!-- Some parts of this command are specific to Claude Code,
 especially folder locations, front matter, and argument passing.
 Modify as needed if using with other coding agents. -->
@@ -11,8 +15,8 @@ Modify as needed if using with other coding agents. -->
 
 Update the current development session by:
 
-1. Check if `.claude/.sessions/.current-session` exists to find the active session
-2. If no active session, inform user to start one with `/session:start`
+1. Check if `.flux/.sessions/.current-session` exists to find the active session
+2. If no active session, inform user to start one with `/session:start` or `flux_session_start`
 3. If session exists, append to the session file with:
    - Current timestamp
    - The update: summarize recent activities

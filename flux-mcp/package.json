@@ -1,0 +1,47 @@
+{
+  "name": "flux-mcp",
+  "version": "1.0.0",
+  "description": "Compound Engineering Framework for AI Agents — MCP Server",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "flux-mcp": "dist/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "ai-agents",
+    "sessions",
+    "git",
+    "developer-tools"
+  ],
+  "scripts": {
+    "build": "tsc && shx chmod +x dist/index.js",
+    "watch": "tsc --watch",
+    "prepare": "npm run build",
+    "test": "vitest run --coverage",
+    "dev": "tsx watch src/index.ts",
+    "start:http": "cross-env FLUX_TRANSPORT=http node dist/index.js",
+    "start:stdio": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "proper-lockfile": "^4.1.2",
+    "simple-git": "^3.35.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^22",
+    "@types/proper-lockfile": "^4.1.4",
+    "@vitest/coverage-v8": "^2.1.0",
+    "cross-env": "^7.0.3",
+    "shx": "^0.3.4",
+    "tsx": "^4.21.0",
+    "typescript": "^5.8.0",
+    "vitest": "^2.1.0"
+  }
+}
