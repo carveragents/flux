@@ -11,9 +11,13 @@ Modify as needed if using with other coding agents. -->
 
 Update the current development session by:
 
-1. Check if `.claude/.sessions/.current-session` exists to find the active session
+IMPORTANT:
+- All session file paths are relative to the worktree root (current working directory), e.g., `.claude/.sessions/`. Do NOT use the global `~/.claude/` directory.
+- `.claude/.sessions/.current-session` is ONLY a pointer — it contains the filename of the active session file (e.g., `2026-03-05-2300-feat-session-name.md`). NEVER write session content to `.current-session`.
+
+1. Read `.claude/.sessions/.current-session` (relative to worktree root) to get the active session filename
 2. If no active session, inform user to start one with `/session:start`
-3. If session exists, append to the session file with:
+3. If session exists, append the update to the named session file (e.g., `.claude/.sessions/YYYY-MM-DD-HHMM-session-name.md`) with:
    - Current timestamp
    - The update: summarize recent activities
    - Git status summary:

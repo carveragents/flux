@@ -10,9 +10,13 @@ Modify as needed if using with other coding agents. -->
 
 End the current development session by:
 
-1. Check `.claude/.sessions/.current-session` for the active session
+IMPORTANT:
+- All session file paths are relative to the worktree root (current working directory), e.g., `.claude/.sessions/`. Do NOT use the global `~/.claude/` directory.
+- `.claude/.sessions/.current-session` is ONLY a pointer — it contains the filename of the active session file (e.g., `2026-03-05-2300-feat-session-name.md`). NEVER write session content to `.current-session`.
+
+1. Read `.claude/.sessions/.current-session` (relative to worktree root) to get the active session filename
 2. If no active session, inform user there's nothing to end
-3. If session exists, append a comprehensive session summary including:
+3. If session exists, append a comprehensive session summary to the named session file (e.g., `.claude/.sessions/YYYY-MM-DD-HHMM-session-name.md`) including:
    - Session duration
    - Git summary:
      * Total files changed (added/modified/deleted)

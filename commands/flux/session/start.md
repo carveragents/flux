@@ -1,8 +1,8 @@
 ---
-allowed-tools: Read, Write, Edit, Grep, Bash(echo:*), Bash(date:*), Bash(git checkout:*), Bash(cat:*), Bash(mkdir -p:*)
+allowed-tools: Read, Write, Edit, Grep, Bash(echo:*), Bash(date:*), Bash(git rev-parse:*), Bash(cat:*), Bash(mkdir -p:*), EnterWorktree
 argument-hint: [session_goal]
 description: Prime the context and start a new development session to track work progress
-model: claude-haiku-4-5
+model: haiku
 ---
 
 <!-- Some parts of this command are specific to Claude Code,
@@ -53,12 +53,16 @@ If there are conflicts between the files and the codebase, the codebase will tak
 ---
 
 
-# STEP 3: Create a working git branch
-Run the git command in the `Branch` section to create a new git branch for this session
+# STEP 3: Create a git worktree for this session
 
-## Branch
+## Worktree
 
-git checkout -b `session_name`
+1. Use the `EnterWorktree` tool with `name` set to `session_name` to create and enter an isolated worktree.
+2. After entering, capture `worktree_path` from the tool result (it will be under `.claude/worktrees/<session_name>`).
+3. Inform the user:
+   - The session is now running inside the worktree at `worktree_path` — no action needed, you are already there
+   - To open in your IDE: open `worktree_path` directly
+   - Session files are tracked in the main repo under `.claude/.sessions/`
 
 ---
 
@@ -70,16 +74,16 @@ Execute the `Start` section to start a new session
 
 Generate a new `session_id` by running the bash date command. Use YYYY-MM-DD-HHMM as the format.
 
-Start a new development session by creating a session file in `.claude/.sessions/` with the format `session_id-session_name.md`.
-If `.claude/.sessions/` does not exist, create it using mkdir.
+Start a new development session by creating a session file at `<worktree_path>/.claude/.sessions/session_id-session_name.md`.
+If `<worktree_path>/.claude/.sessions/` does not exist, create it using mkdir.
 
 The session file should begin with:
 1. Session name and timestamp as the title
-2. Session overview section with start time
+2. Session overview section with start time, including `**Worktree:** <worktree_path>` (from EnterWorktree result)
 3. Goals section (ask user for goals if not clear)
 4. Empty progress section ready for updates
 
-After creating the file, create or update `.claude/.sessions/.current-session` to track the active session filename.
+After creating the file, create or update `<worktree_path>/.claude/.sessions/.current-session` to contain ONLY the session filename (e.g., `2026-03-05-2300-feat-personalize-reports.md`). This file is a pointer — it must NOT contain session content, updates, or progress.
 
 Confirm the session has started and remind the user they can:
 - Update it with `/session:update`

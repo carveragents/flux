@@ -1,8 +1,8 @@
 ---
 allowed-tools: Read, Write, Edit, Grep, Bash(echo:*), Bash(date:*), Bash(git checkout:*), Bash(cat:*), Bash(mkdir -p:*)
 argument-hint: [repo_desc]
-description: Prime the context and start a new development session to track work progress
-model: claude-opus-4-6
+description: Init the repo to work with the Flux framework
+model: opus
 ---
 
 <!-- Some parts of this command are specific to Claude Code,

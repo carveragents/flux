@@ -30,7 +30,7 @@ The Flux framework transforms AI-coder development through **session-based workf
 
 - **Smart Context Loading**: Automatically primes AI model context with relevant files and lessons based on session goals
 - **Zero Manual Setup**: No need to explain project structure or copy-paste code snippets
-- **Session Isolation**: Each session runs in its own Git branch automatically
+- **Worktree Isolation**: Each session runs in its own isolated Git worktree — parallel sessions work without conflicts
 - **Learning Capture**: Every challenge and solution becomes institutional knowledge
 - **Documentation Evolution**: Project understanding improves automatically over time
 
@@ -54,7 +54,7 @@ cp -R flux/commands ~/.claude/
 ```bash
 /flux:session:start fix memory leak in data processing
 ```
-*Framework analyzes your goal, loads relevant code and docs, surfaces applicable lessons, and creates an isolated branch `bugfix-memory-leak-data-processing` for development*
+*Framework analyzes your goal, loads relevant code and docs, surfaces applicable lessons, and creates an isolated Git worktree at `.claude/worktrees/bugfix-memory-leak-data-processing` for development. Open this path in your IDE to work in the session.*
 
 #### 3. Develop
 *Develop as normal. Let AI generate code. It may encounter problems, solve as normal using human + AI mix.*
@@ -97,10 +97,12 @@ All commands live under `commands/flux/` and are organized into three groups:
 | Command | Description |
 |---------|-------------|
 | `/flux:git:commit` | Analyze changes and generate conventional commit messages with emojis; auto-splits large changes into atomic commits |
-| `/flux:git:merge-cleanup [target]` | Merge work branch into target (default: main), push to origin, and delete the work branch |
-| `/flux:git:merge-retain [target]` | Merge work branch into target (default: main), push to origin, and switch back to the work branch |
+| `/flux:git:merge-cleanup [target]` | Merge work branch into target (default: main), push to origin, and delete the worktree and branch |
+| `/flux:git:merge-retain [target]` | Merge work branch into target (default: main), push to origin, and stay on the work branch |
 
 Git commands integrate seamlessly with the session workflow but are entirely optional.
+
+> **Worktree note**: `merge-cleanup` safely handles worktree removal by first `cd`-ing to the main repo, then removing the worktree, then deleting the branch — avoiding shell CWD issues that occur when deleting the directory you're running from.
 
 ## 🔧 Extending beyond Claude Code
 
