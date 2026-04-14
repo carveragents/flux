@@ -1,0 +1,75 @@
+# Windsurf agent config
+
+name = "windsurf"
+ide_name = "Windsurf"
+cmd_prefix = "/flux-"
+execution_trigger = ""
+
+# File delivery
+file_extension = ".md"
+install_structure = "flat_file"   # flux-{op}.md
+
+# Install paths
+[install]
+path_unix = "~/.codeium/windsurf/windsurf/workflows"
+path_windows = "%USERPROFILE%\\.codeium\\windsurf\\windsurf\\workflows"
+detection_path_unix = "~/.codeium/windsurf"
+detection_path_windows = "%USERPROFILE%\\.codeium\\windsurf"
+
+# Front matter template
+[front_matter]
+template = """---
+auto_execution_mode = 0
+description = "{description_full}"
+---"""
+
+# Per-operation metadata — same descriptions as Cursor
+[operations.repo-init]
+op_slug = "repo-init"
+description_full = """Initializes a repository with the Flux compound engineering framework structure. Creates docs/, .flux/.sessions/, LESSONS.md, and generates project documentation. Use when the user says "init flux", "initialize flux", "set up flux", or wants to set up Flux for a new project."""
+description_short = "Initializes a repository with the Flux framework structure."
+
+[operations.session-start]
+op_slug = "session-start"
+description_full = """Starts a new Flux development session with an isolated git worktree, session tracking file, and context priming from docs and lessons. Use when the user says "start session", "begin session", "new session", or "start a session for [goal]"."""
+description_short = "Starts a new Flux development session."
+
+[operations.session-update]
+op_slug = "session-update"
+description_full = """Appends a progress update to the active Flux development session file. Use when the user says "update session", "log progress", "checkpoint", or "save progress"."""
+description_short = "Appends a progress update to the active session."
+
+[operations.session-end]
+op_slug = "session-end"
+description_full = """Ends the active Flux development session with a comprehensive summary, captures lessons into docs/LESSONS.md, and clears the session pointer. Use when the user says "end session", "finish session", "close session", or "wrap up"."""
+description_short = "Ends the active Flux development session."
+
+[operations.session-current]
+op_slug = "session-current"
+description_full = """Displays the active Flux development session status, goal, duration, and recent updates. Use when the user says "current session", "session status", or "what session is active"."""
+description_short = "Displays the active session status."
+
+[operations.session-list]
+op_slug = "session-list"
+description_full = """Lists all Flux development sessions in the current worktree with their goals and status. Use when the user says "list sessions", "show all sessions", or "session history"."""
+description_short = "Lists all development sessions."
+
+[operations.session-help]
+op_slug = "session-help"
+description_full = """Shows session command help and best practices for using Flux sessions. Use when the user says "session help", "how do sessions work", or "flux help"."""
+description_short = "Shows session command help and best practices."
+
+[operations.git-commit]
+op_slug = "git-commit"
+description_full = """Creates well-formatted git commits with conventional commit messages and emoji, auto-staging changes and splitting into atomic commits when multiple concerns are detected. Use when the user says "commit", "commit changes", or "create a commit"."""
+description_short = "Creates well-formatted git commits."
+
+[operations.git-merge-cleanup]
+op_slug = "git-merge-cleanup"
+description_full = """Merges the current Flux work branch into the target branch, pushes to origin, removes the worktree, and deletes the branch. Use when the user says "merge and cleanup", "merge cleanup", or "finish branch"."""
+description_short = "Merges the work branch and removes the worktree."
+
+[operations.git-merge-retain]
+op_slug = "git-merge-retain"
+description_full = """Merges the current Flux work branch into the target branch and pushes to origin, but keeps the worktree and branch for continued work. Use when the user says "merge and retain", "merge but keep branch", or "merge without cleanup"."""
+description_short = "Merges the work branch and keeps the worktree."

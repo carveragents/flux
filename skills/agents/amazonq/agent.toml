@@ -1,0 +1,72 @@
+# Amazon Q agent config
+
+name = "amazonq"
+ide_name = "the IDE"
+cmd_prefix = "@"
+execution_trigger = "Execute the following instructions now.\n\n"
+
+# File delivery - no "flux-" prefix, files are named by operation slug only
+file_extension = ".md"
+install_structure = "flat_file"   # {op_slug}.md  (no flux- prefix)
+
+# Install paths
+[install]
+path_unix = "~/.aws/amazonq/prompts"
+path_windows = "%USERPROFILE%\\.aws\\amazonq\\prompts"
+detection_path_unix = "~/.aws/amazonq"
+detection_path_windows = "%USERPROFILE%\\.aws\\amazonq"
+
+# No front matter for Amazon Q — execution_trigger is prepended instead
+[front_matter]
+template = ""
+
+# Per-operation metadata — no trigger phrases needed (execution_trigger handles invocation)
+[operations.repo-init]
+op_slug = "repo-init"
+description_full = "Initializes a repository with the Flux framework structure."
+description_short = "Initializes a repository with the Flux framework structure."
+
+[operations.session-start]
+op_slug = "session-start"
+description_full = "Starts a new Flux development session."
+description_short = "Starts a new Flux development session."
+
+[operations.session-update]
+op_slug = "session-update"
+description_full = "Appends a progress update to the active session."
+description_short = "Appends a progress update to the active session."
+
+[operations.session-end]
+op_slug = "session-end"
+description_full = "Ends the active Flux development session."
+description_short = "Ends the active Flux development session."
+
+[operations.session-current]
+op_slug = "session-current"
+description_full = "Displays the active session status."
+description_short = "Displays the active session status."
+
+[operations.session-list]
+op_slug = "session-list"
+description_full = "Lists all development sessions."
+description_short = "Lists all development sessions."
+
+[operations.session-help]
+op_slug = "session-help"
+description_full = "Shows session command help and best practices."
+description_short = "Shows session command help and best practices."
+
+[operations.git-commit]
+op_slug = "git-commit"
+description_full = "Creates well-formatted git commits."
+description_short = "Creates well-formatted git commits."
+
+[operations.git-merge-cleanup]
+op_slug = "git-merge-cleanup"
+description_full = "Merges the work branch and removes the worktree."
+description_short = "Merges the work branch and removes the worktree."
+
+[operations.git-merge-retain]
+op_slug = "git-merge-retain"
+description_full = "Merges the work branch and keeps the worktree."
+description_short = "Merges the work branch and keeps the worktree."
