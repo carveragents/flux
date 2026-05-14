@@ -6,6 +6,45 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Flux is a Claude Code workflow framework — a collection of skill commands that standardize development workflows through session management, git automation, and repository initialization. Commands are markdown files with YAML front matter that are loaded as skills in the Claude Code harness.
 
+## Git topology — read before pushing
+
+This skill is one repo nested inside another via a submodule. Knowing where you are matters.
+
+- **Standalone repo:** `github.com/carveragents/flux` — canonical home of the skill's code and history. All skill commits land here.
+- **Aggregator repo:** `github.com/carveragents/carver-tools` — references this skill as a submodule at `skills/flux`. Pinned to a specific SHA.
+- **Local working copy:** `~/work/scribble/code/repos/carver/carver-tools/skills/flux/` — the submodule checkout. Edit here.
+- **Symlink for the loader:** `~/.claude/skills/flux` → the working copy above. Don't edit `~/.claude/...` directly; it dereferences to the same files.
+
+### Making a skill change
+
+1. Edit files from either the `~/.claude/...` symlink or the submodule path (identical files).
+2. Test locally.
+3. Commit and push from inside the submodule:
+   ```bash
+   cd ~/.claude/skills/flux
+   git status                    # branch shows `main`, remote `origin/main`
+   git commit -am "feat: ..."
+   git push                      # → carveragents/flux
+   ```
+4. **The aggregator is now stale.** To advance the pin (only needed if carver-tools consumers should pick up the change):
+   ```bash
+   cd ~/work/scribble/code/repos/carver/carver-tools
+   git add skills/flux
+   git commit -m "bump: flux to $(git -C skills/flux rev-parse --short HEAD)"
+   git push                      # → carveragents/carver-tools
+   ```
+
+### When pulling
+
+- **From the skill repo:** `git pull` inside the symlink/submodule path. Normal Git.
+- **From the aggregator:** after `git pull` in `carver-tools`, also run `git submodule update` to move the working tree to the new SHA.
+
+### Don't do this
+
+- Don't `git clone` the standalone repo into a fresh directory and edit there — the symlink still points at the submodule checkout and your edits will be invisible to Claude Code.
+- Don't commit aggregator-level changes inside the skill submodule.
+- Don't push the symlink itself — it's local and not tracked by either repo.
+
 ## Architecture
 
 Each command is a standalone `.md` file structured as:

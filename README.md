@@ -120,6 +120,39 @@ All logic lives in the **command contracts** (`commands/flux/{repo,session,git}/
 - **Review Lessons**: Let the framework surface relevant insights from previous work
 - **Initialize First**: Run `/flux:repo:init` once per project to set up documentation scaffolding
 
+## 🌿 Repo layout & contributing workflow (developers)
+
+This skill is checked into **`carveragents/flux`** and also referenced as a submodule by **`carveragents/carver-tools`** at `skills/flux`.
+
+Recommended local layout:
+```
+~/work/scribble/code/repos/carver/carver-tools/   # umbrella, clone of carver-tools
+  └── skills/
+      └── flux/                                    # submodule = this repo
+                                                   # ← edit here
+
+~/.claude/skills/flux → (symlink) ──→ the path above
+```
+
+**To make a change:**
+1. Edit files (from either the `~/.claude/...` symlink or the submodule path — same files).
+2. Test locally.
+3. Commit and push from inside the skill:
+   ```bash
+   cd ~/.claude/skills/flux
+   git commit -am "feat: ..."
+   git push                  # → carveragents/flux
+   ```
+4. If `carver-tools` consumers should pick up the change, bump the pin:
+   ```bash
+   cd ~/work/scribble/code/repos/carver/carver-tools
+   git add skills/flux
+   git commit -m "bump: flux to <short-sha>"
+   git push                  # → carveragents/carver-tools
+   ```
+
+Full agent-facing notes (including pull/update behavior and common pitfalls) are in `CLAUDE.md` under **Git topology — read before pushing**.
+
 ## 🤝 Contributing 
 
 To improve this framework, submit pull requests for better command instructions, new commands, session file formatting, and utilities for session analysis.
