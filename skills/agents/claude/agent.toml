@@ -1,0 +1,107 @@
+# Claude Code agent config
+
+name = "claude"
+ide_name = "Claude Code"
+cmd_prefix = "/flux:"
+execution_trigger = ""
+
+# File delivery
+file_extension = ".md"
+install_structure = "nested"   # repo/init.md, session/start.md, etc.
+
+# Install paths
+[install]
+path_unix = "~/.claude/commands/flux"
+path_windows = "%USERPROFILE%\\.claude\\commands\\flux"
+detection_path_unix = "~/.claude"
+detection_path_windows = "%USERPROFILE%\\.claude"
+
+# Front matter template — Claude-specific fields
+[front_matter]
+template = """---
+allowed-tools: {allowed_tools}
+argument-hint: {argument_hint}
+description: {description_short}
+model: {model}
+---"""
+
+# Per-operation metadata
+[operations.repo-init]
+op_slug = "repo/init"
+allowed_tools = "Read, Write, Edit, Grep, Bash(echo:*), Bash(date:*), Bash(git ls-files:*), Bash(cat:*), Bash(mkdir -p:*)"
+argument_hint = "[repo_desc]"
+model = "claude-opus-4-6"
+description_full = """One-time setup — scaffold Flux files and generate project documentation. Use when the user says "init flux", "initialize flux", "set up flux", or wants to set up Flux for a new project."""
+description_short = "One-time setup — scaffold Flux files and generate project documentation"
+
+[operations.session-start]
+op_slug = "session/start"
+allowed_tools = "Read, Write, Edit, Grep, Bash(echo:*), Bash(date:*), Bash(git rev-parse:*), Bash(git worktree list:*), Bash(cat:*), Bash(mkdir -p:*), EnterWorktree"
+argument_hint = "[session_goal]"
+model = "haiku"
+description_full = """Prime the context and start a new development session to track work progress. Use when the user says "start session", "begin session", "new session", or "start a session for [goal]"."""
+description_short = "Prime the context and start a new development session to track work progress"
+
+[operations.session-update]
+op_slug = "session/update"
+allowed_tools = "Read, Write, Edit, Bash(echo:*), Bash(date:*), Bash(cat:*)"
+argument_hint = ""
+model = "haiku"
+description_full = """Append a progress update to the active Flux development session file. Use when the user says "update session", "log progress", "checkpoint", or "save progress"."""
+description_short = "Append a progress update to the active session"
+
+[operations.session-end]
+op_slug = "session/end"
+allowed_tools = "Read, Write, Edit, Bash(echo:*), Bash(date:*), Bash(cat:*)"
+argument_hint = ""
+model = "sonnet"
+description_full = """End the active Flux development session with a comprehensive summary, capture lessons into docs/LESSONS.md, and clear the session pointer. Use when the user says "end session", "finish session", "close session", or "wrap up"."""
+description_short = "End the active session with summary and lesson capture"
+
+[operations.session-current]
+op_slug = "session/current"
+allowed_tools = "Read, Bash(echo:*), Bash(date:*), Bash(cat:*)"
+argument_hint = ""
+model = "haiku"
+description_full = """Display the active Flux development session status, goal, duration, and recent updates. Use when the user says "current session", "session status", or "what session is active"."""
+description_short = "Show the active session's status, duration, and recent updates"
+
+[operations.session-list]
+op_slug = "session/list"
+allowed_tools = "Read, Bash(echo:*), Bash(ls:*), Bash(cat:*)"
+argument_hint = ""
+model = "haiku"
+description_full = """List all Flux development sessions in the current worktree with their goals and status. Use when the user says "list sessions", "show all sessions", or "session history"."""
+description_short = "List all past and present session files"
+
+[operations.session-help]
+op_slug = "session/help"
+allowed_tools = "Read"
+argument_hint = ""
+model = "haiku"
+description_full = """Show session command help and best practices for using Flux sessions. Use when the user says "session help", "how do sessions work", or "flux help"."""
+description_short = "Show session command help and best practices"
+
+[operations.git-commit]
+op_slug = "git/commit"
+allowed_tools = "Read, Bash(echo:*), Bash(git status:*), Bash(git diff:*), Bash(git add:*), Bash(git commit:*)"
+argument_hint = ""
+model = "sonnet"
+description_full = """Analyze changes and generate conventional commit messages with emojis; auto-splits large changes into atomic commits. Use when the user says "commit", "commit changes", or "create a commit"."""
+description_short = "Analyze changes and generate conventional commit messages with emojis"
+
+[operations.git-merge-cleanup]
+op_slug = "git/merge-cleanup"
+allowed_tools = "Read, Bash(echo:*), Bash(git:*), Bash(cd:*)"
+argument_hint = "[target_branch]"
+model = "haiku"
+description_full = """Merge work branch into target (default: main), push to origin, and delete the worktree and branch. Use when the user says "merge and cleanup", "merge cleanup", or "finish branch"."""
+description_short = "Merge work branch into target, push to origin, and delete the worktree and branch"
+
+[operations.git-merge-retain]
+op_slug = "git/merge-retain"
+allowed_tools = "Read, Bash(echo:*), Bash(git:*)"
+argument_hint = "[target_branch]"
+model = "haiku"
+description_full = """Merge work branch into target (default: main), push to origin, and stay on the work branch. Use when the user says "merge and retain", "merge but keep branch", or "merge without cleanup"."""
+description_short = "Merge work branch into target, push to origin, and stay on the work branch"

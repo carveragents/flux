@@ -36,39 +36,63 @@ The Flux framework transforms AI-coder development through **session-based workf
 
 ## 🚀 Quick Start
 
-> *Note: The framework works out-of-the-box with Claude Code but can be easily modified to work with other AI coding agents.*
+#### 0. Install Skills (Once Per Machine)
 
-#### 0. Installation
+Clone the repo:
+
 ```bash
 git clone https://github.com/carveragents/flux.git
-cp -R flux/commands ~/.claude/
+cd flux
 ```
+
+**All Agents (including Claude Code)**
+```bash
+python skills/install.py --agent all
+```
+
+This detects which agents are installed on your machine and installs Flux skills for all of them.
+
+> See [`skills/README.md`](skills/README.md) for agent-specific install paths and manual installation options.
 
 #### 1. Initialize Your Repo (One-Time Setup)
-```bash
-/flux:repo:init [repo_desc]
-```
-*Creates boilerplate files (`CLAUDE.md`, `docs/README.md`, `docs/LESSONS.md`), reads your codebase, and generates project documentation automatically*
+
+| Agent | Command |
+|---|---|
+| Claude Code | `/flux:repo:init [repo_desc]` |
+| Amazon Q | `@repo-init` |
+| Cursor / Windsurf / Copilot | `/flux-repo-init` |
+
+*Reads your codebase and generates project documentation under `docs/`. No agent-specific files are created in the project — any agent with Flux skills installed can work on any Flux-initialized repo.*
 
 #### 2. Start with Intelligent Context Priming
-```bash
-/flux:session:start fix memory leak in data processing
-```
-*Framework analyzes your goal, loads relevant code and docs, surfaces applicable lessons, and creates an isolated Git worktree at `.claude/worktrees/bugfix-memory-leak-data-processing` for development. Open this path in your IDE to work in the session.*
+
+| Agent | Command |
+|---|---|
+| Claude Code | `/flux:session:start fix memory leak in data processing` |
+| Amazon Q | `@session-start fix memory leak in data processing` |
+| Cursor / Windsurf / Copilot | `/flux-session-start` then provide goal |
+
+*Framework analyzes your goal, loads relevant code and docs, surfaces applicable lessons, and creates an isolated Git worktree at `.flux/worktrees/fix-memory-leak-data-processing` for development. Open this path in your IDE to work in the session.*
 
 #### 3. Develop
 *Develop as normal. Let AI generate code. It may encounter problems, solve as normal using human + AI mix.*
 
 #### 4. Update and Capture Progress
-```bash
-/flux:session:update
-```
-*Updates session progress, summarizes and captures development flow*
+
+| Agent | Command |
+|---|---|
+| Claude Code | `/flux:session:update` |
+| Amazon Q | `@session-update` |
+| Cursor / Windsurf / Copilot | `/flux-session-update` |
 
 #### 5. End with Knowledge Capture
-```bash
-/flux:session:end
-```
+
+| Agent | Command |
+|---|---|
+| Claude Code | `/flux:session:end` |
+| Amazon Q | `@session-end` |
+| Cursor / Windsurf / Copilot | `/flux-session-end` |
+
 *Updates lessons learned and prepares insights for future sessions*
 
 ## 📦 Commands Reference
@@ -104,13 +128,19 @@ Git commands integrate seamlessly with the session workflow but are entirely opt
 
 > **Worktree note**: `merge-cleanup` safely handles worktree removal by first `cd`-ing to the main repo, then removing the worktree, then deleting the branch — avoiding shell CWD issues that occur when deleting the directory you're running from.
 
-## 🔧 Extending beyond Claude Code
+## 🔧 Agent-Agnostic Design
 
-All logic lives in the **command contracts** (`commands/flux/{repo,session,git}/*.md`). To adapt:
+Flux works across agents because the workflow logic is pure prose - no agent-specific protocol. Skills are generated on-demand from a single source of truth and installed directly to each agent's native location.
 
-- Map `allowed tools` and filesystem paths to your agent/runtime.
-- Keep the **session file format** stable for portability.
-- If your agent can run shell steps, branch creation and `git status` work as-is.
+- **Claude Code**: enhanced commands in `skills/core-claude/` with Claude-specific features - invoked with `/flux:*`
+- **Amazon Q**: generated from `skills/core/` - invoked with `@*`
+- **Cursor**: generated from `skills/core/` - invoked with `/flux-*`
+- **Windsurf**: generated from `skills/core/` - invoked with `/flux-*`
+- **Copilot**: generated from `skills/core/` - invoked with `/flux-*`
+
+All agents share the same session file format, `.flux/` namespace, and `docs/` contract. A session started in Cursor can be read by Amazon Q. The pointer is the contract, not the agent.
+
+> Claude Code commands use Claude-specific features (EnterWorktree tool, allowed-tools, model selection) that don't exist in other agents. These are maintained in `skills/core-claude/` and installed via the unified installer.
 
 ## 📋 Best Practices
 
