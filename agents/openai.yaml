@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flux Engineering Workflow"
+  short_description: "Portable sessions, commits, and branch integration"
+  default_prompt: "Use Flux to manage this development workflow safely."
