@@ -5,12 +5,10 @@ Use this workflow to initialize Flux or refresh project documentation.
 ## Initialize
 
 1. Resolve the repository root and read existing instruction and documentation files.
-2. Run:
-
-   ```bash
-   python3 <flux-skill>/scripts/session.py --root <repo-root> init
-   ```
-
+2. Using native file operations, create `.flux/sessions/` and an empty
+   `.flux/sessions/.current-session` only when they are missing. If the pointer exists,
+   accept only an empty file or one `.md` basename whose sibling session file exists;
+   never clear active or malformed state.
 3. Create missing files only:
    - `docs/README.md`: a short index linking to project documentation.
    - `docs/LESSONS.md`: headings `# Sessions` and `# Lessons`.
@@ -27,7 +25,8 @@ Use this workflow to initialize Flux or refresh project documentation.
    updated files.
 
 Never overwrite populated documentation during initialization. Merge missing information
-into the existing structure with a small, reviewable edit.
+into the existing structure with a small, reviewable edit. Initialization must not depend
+on Python, Node, a shell script, or any project runtime.
 
 ## Refresh
 

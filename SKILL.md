@@ -35,11 +35,18 @@ worktree from a request that only asks for analysis or session tracking.
 6. Stop on conflicts, failed verification, failed pushes, malformed session state, or an
    unexpected branch/worktree. Explain the exact state; do not improvise cleanup.
 
-## Session Helper
+## Native Session State
 
-Use `scripts/session.py` for session state transitions instead of hand-writing the active
-pointer. Run `python3 scripts/session.py --help` from this skill directory for commands.
-The helper never edits source files, creates worktrees, commits, pushes, or merges.
+Assume no language runtime or Flux executable is installed. Use the agent's native file
+read, create, and edit operations for all `.flux/` session state. Do not invoke Python,
+Node, a shell script, or another helper to manage sessions.
+
+Session state is single-writer: never perform a Flux session mutation while another agent
+is known to be mutating the same worktree. Native operations cannot detect or prevent an
+unknown concurrent writer. Before every mutation, re-read the active pointer and target
+session file. Create a session file before activating its pointer; clear the pointer only
+after final session and documentation writes succeed. Stop on any partial write and report
+the exact files involved instead of improvising recovery.
 
 Legacy projects may contain `.claude/.sessions/`. Do not silently combine it with `.flux/`.
 When Flux is first used, offer to copy the legacy session Markdown files into
